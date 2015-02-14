@@ -169,15 +169,23 @@ T BST<T>::search(long key) const{
 template <typename T>
 T BST<T>::max() const {
 	BST_Node<T> *i = root;
-	while(i->r) i = i->r;
-	return i->data;
+	if(root) {
+		while(i->r) i = i->r;
+		return i->data;
+	} else {
+		return 0;
+	}
 }
 
 template <typename T>
 T BST<T>::min() const {
-	BST_Node<T> *i;
-	while(i->l) i = i->l;
-	return i->data;
+	BST_Node<T> *i = root;
+	if(root) {
+		while(i->l) i = i->l;
+		return i->data;
+	} else {
+		return 0;
+	}
 }
 
 template <typename T>
