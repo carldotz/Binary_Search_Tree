@@ -11,12 +11,13 @@ class BST {
 		BST_Node<T> * root;
 
 		bool transplant(BST_Node<T> *u, BST_Node<T> *v);
-
 		void inorder(BST_Node<T> *location, std::ostream& out) const;
 		void preorder(BST_Node<T> *location, std::ostream& out) const;
 		void postorder(BST_Node<T> *location, std::ostream& out) const;
-		T search(BST_Node<T> *f, long key) const;
+		BST_Node<T>& search(BST_Node<T> *f, long key) const;
 		void free(BST_Node<T> *root);
+		BST_Node<T>& max(BST_Node<T> *root) const; 
+		BST_Node<T>& min(BST_Node<T> *root) const; 
 
 	public:
 		BST() {
@@ -29,9 +30,9 @@ class BST {
 
 		bool insert(long key, T data);
 		bool remove(long key);
-		T search(long key) const;
-		T max() const;
-		T min() const;
+		BST_Node<T>& search(long key) const;
+		BST_Node<T>&  max() const;
+		BST_Node<T>&  min() const;
 		void inorder(std::ostream& out) const;
 		void preorder(std::ostream& out) const;
 		void postorder(std::ostream& out) const;
@@ -40,6 +41,16 @@ class BST {
 
 template <typename T>
 bool BST<T>::transplant(BST_Node<T> *u, BST_Node<T> *v) {
+	if(!u->p) {
+		root = v;
+	} else if(u == u->p->l) {
+		u->p->l = v;
+	} else if(u == u->p->r) {
+		u->p->r = v;
+	}
+	if(v) {
+		v->p = u->p;
+	}
 
 	return true;
 }
@@ -154,59 +165,88 @@ bool BST<T>::insert(long key, T data) {
 	c->key = key;
 	c->r = NULL;
 	c->l = NULL;
+	c->valid = true;
 
 	return true;
 }
 
 template <typename T>
 bool BST<T>::remove(long key) { 
-
+	BST_Node<T> *z = &(search(key));
+	BST_Node<T> *y = NULL;
+	if(!z->valid) return false;
+	if(!z->l) {
+		transplant(z,z->r);
+	} else if(!z->r) {
+		transplant(z,z->l);
+	} else {
+		y = &min(z->r);
+		if(y->p != z) {
+			transplant(y, y->r);
+			y->r = z->r;
+			y->r->p = y;
+		}
+		transplant(z, y);
+		y->l = z->l;
+		y->l->p = y;
+	}
+	delete z;
 	return true;
 }
 
 template <typename T>
-T BST<T>::search(BST_Node<T> *f, long key) const{
+BST_Node<T>& BST<T>::search(BST_Node<T> *f, long key) const{
 	BST_Node<T> *i = f;
 	if(i->key == key) 
-	  return i->data;
+	  return *i;
 	else if(i->r && key > i->key)
 	  return search(i->r, key);
 	else if(i->l && key < i->key)
 	  return search(i->l, key);
-	return i->data;
+	return *(new BST_Node<T>);
 }
 
 template <typename T>
-T BST<T>::search(long key) const{
+BST_Node<T>& BST<T>::search(long key) const{
 	return search(root, key);
 }
 
 template <typename T>
-T BST<T>::max() const {
+BST_Node<T>& BST<T>::max(BST_Node<T> *root) const {
 	BST_Node<T> *i = root;
 	if(root) {
 		while(i->r) i = i->r;
-		return i->data;
+		return *i;
 	} else {
-		return 0;
+		return *(new BST_Node<T>);
 	}
 }
 
 template <typename T>
-T BST<T>::min() const {
+BST_Node<T>& BST<T>::min(BST_Node<T> *root) const {
 	BST_Node<T> *i = root;
 	if(root) {
 		while(i->l) i = i->l;
-		return i->data;
+		return *i;
 	} else {
-		return 0;
+		return *(new BST_Node<T>);
 	}
+}
+
+template <typename T>
+BST_Node<T>& BST<T>::max() const {
+	return max(root);
+}
+
+template <typename T>
+BST_Node<T>& BST<T>::min() const {
+	return min(root);
 }
 
 template <typename T>
 std::ostream& operator<<(std::ostream &out, const BST<T> & bst) {
 	bst.inorder(out);
 	return out;
-}
+} 
 
 #endif

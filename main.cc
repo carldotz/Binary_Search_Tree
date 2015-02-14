@@ -18,10 +18,13 @@ int main() {
 		bst.insert(random()%100, random()%100);
 	cout << bst << endl;
 	cout << "********search*****" << endl;
-	cout << bst.search(90) << endl;
+	cout << bst.search(90).data << endl;
 	cout << "********max********" << endl;
-	cout << bst.max() << endl;
+	cout << bst.max().data << endl;
 	cout << "********min********" << endl;
-	cout << bst.min() << endl;
+	cout << bst.min().data << endl;
+	cout << "******remove********" << endl;
+	bst.remove(2);
+	cout << bst << endl;
 	return 0;
 }

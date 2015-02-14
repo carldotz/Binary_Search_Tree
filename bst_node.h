@@ -9,6 +9,7 @@ struct BST_Node {
 	BST_Node<T> *r;
 	BST_Node<T> *p;
 	T data;
+	bool valid;
 };
 
 #endif
