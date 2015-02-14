@@ -17,5 +17,7 @@ int main() {
 	for(int i=0;i<100;++i) 
 		bst.insert(random()%100, 100);
 	cout << bst << endl;
+	cout << "********search*****" << endl;
+	cout << bst.search(90) << endl;
 	return 0;
 }

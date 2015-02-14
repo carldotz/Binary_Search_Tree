@@ -15,6 +15,7 @@ class BST {
 		void inorder(BST_Node<T> *location, std::ostream& out) const;
 		void preorder(BST_Node<T> *location, std::ostream& out) const;
 		void postorder(BST_Node<T> *location, std::ostream& out) const;
+		T search(BST_Node<T> *f, long key) const;
 
 	public:
 		BST() {
@@ -26,7 +27,7 @@ class BST {
 
 		bool insert(long key, T data);
 		bool remove(long key);
-		T search(BST_Node<T> *f, long key) const;
+		T search(long key) const;
 		T max() const;
 		T min() const;
 		void inorder(std::ostream& out) const;
@@ -157,6 +158,12 @@ T BST<T>::search(BST_Node<T> *f, long key) const{
 	  return search(i->r, key);
 	else if(i->l && key < i->key)
 	  return search(i->l, key);
+	return i->data;
+}
+
+template <typename T>
+T BST<T>::search(long key) const{
+	return search(root, key);
 }
 
 template <typename T>
