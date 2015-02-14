@@ -11,3 +11,4 @@ BST:bst.h main.cc bst_node.h
 clean:
 	@rm -f .o
 	@rm -f BST
+	@rm -fr BST.dSYM

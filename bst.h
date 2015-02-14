@@ -16,6 +16,7 @@ class BST {
 		void preorder(BST_Node<T> *location, std::ostream& out) const;
 		void postorder(BST_Node<T> *location, std::ostream& out) const;
 		T search(BST_Node<T> *f, long key) const;
+		void free(BST_Node<T> *root);
 
 	public:
 		BST() {
@@ -23,6 +24,7 @@ class BST {
 		}
 
 		~BST() {
+			free(root);
 		}
 
 		bool insert(long key, T data);
@@ -84,6 +86,19 @@ void BST<T>::postorder(BST_Node<T> *root, std::ostream& out) const {
 		out << (root->key) << "," << (root->data) << "\t";
 	} else {
 		out << "Empty" << std::endl;
+	}
+}
+
+template <typename T>
+void BST<T>::free(BST_Node<T> *root) {
+	if(root) {
+		if(root->l) {
+			free(root->l);
+		}
+		if(root->r) {
+			free(root->r);
+		}	
+		delete root;
 	}
 }
 
