@@ -3,8 +3,12 @@
 
 
 template <typename T>
-class BSTNode {
-
+struct BST_Node {
+	long key;
+	BST_Node<T> *l;
+	BST_Node<T> *r;
+	BST_Node<T> *p;
+	T data;
 };
 
 #endif
