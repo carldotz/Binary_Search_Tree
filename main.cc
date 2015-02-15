@@ -25,6 +25,9 @@ int main() {
 	cout << bst.min().data << endl;
 	cout << "******remove********" << endl;
 	bst.remove(2);
+	bst.remove(3);
+	bst.remove(5);
+	bst.remove(90);
 	cout << bst << endl;
 	return 0;
 }
